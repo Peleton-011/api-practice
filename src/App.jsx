@@ -51,6 +51,14 @@ function App() {
 			) : (
 				<p>Error: {search} not found</p>
 			)}
+			<button
+				onClick={(e) => {
+					setOffset(offset + 1);
+					fetchNew();
+				}}
+			>
+				Regen
+			</button>
 		</>
 	);
 }
