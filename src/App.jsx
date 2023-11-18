@@ -8,8 +8,10 @@ function App() {
 	const [img, setImg] = useState(0);
 	const [error, setError] = useState(false);
 	const [offset, setOffset] = useState(0);
-	function fetchNew() {
-		fetch(
+	async function fetchNew() {
+        try {
+        
+		let res = await fetch(
 			"https://api.giphy.com/v1/gifs/translate?api_key=" +
 				api.key +
 				"&s=" +
@@ -18,17 +20,14 @@ function App() {
 				offset,
 			{ mode: "cors" }
 		)
-			.then(function (response) {
-				if (response.status === 200) setError(true);
-				return response.json();
-			})
-			.then(function (response) {
-				setImg(response.data.images.original.url);
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
-	}
+        if (res.status === 200) setError(true);
+		res = await res.json();
+		setImg(res.data.images.original.url);
+        } catch (e) {
+            setError(true);
+            console.log(e);
+        }
+    }
 	useEffect(() => {
 		fetchNew();
 		setOffset(0);
